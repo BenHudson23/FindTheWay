@@ -17,8 +17,12 @@ namespace FindTheWay
             InitializeComponent();
         }
 
+        GridSquare[,] grid;
+        Point gridSize = new Point();
+
         private void btnGenerate_Click(object sender, EventArgs e)
         {
+
             lblStatus.Text = "Generating grid";
             tabControl1.SelectTab(1);
 
@@ -39,6 +43,17 @@ namespace FindTheWay
                 y = 10;
             }
 
+            grid = new GridSquare[x, y];
+            for (int xPos = 0; xPos < x; xPos++)
+            {
+                for (int yPos = 0; yPos < y; yPos++)
+                {
+                    GridSquare square = new GridSquare(xPos, yPos);
+                    grid[xPos, yPos] = square;
+                }
+            }
+
+
             DrawGrid(x, y);
         }
 
@@ -49,11 +64,35 @@ namespace FindTheWay
             Graphics g = Graphics.FromImage(i);
             int w = panelVis.Width / xSize;
             int h = panelVis.Height / ySize;
-            Pen pen = new Pen(Color.Red);
+            Pen penNormal = new Pen(Color.Blue);
+            Pen penObstacle = new Pen(Color.Red);
+            Pen penStart = new Pen(Color.Green);
+            Pen penEnd = new Pen(Color.Black);
+
             for (int x = 0; x < xSize; x++)
             {
                 for (int y = 0; y < ySize; y++)
                 {
+                    GridSquare square = grid[x, y];
+                    Pen pen = penNormal;
+
+                    // draw in red for an obstacle
+                    if (square.obstacle)
+                    {
+                        pen = penObstacle;
+                    }
+
+                    // change colour for the start
+                    if (square.startPoint)
+                    {
+                        pen = penStart;
+                    }
+
+                    // change colour for the end
+                    if (square.endPoint)
+                    {
+                        pen = penEnd;
+                    }
                     g.DrawRectangle(pen, x * w, y * h, w, h);
                 }
             }
@@ -75,11 +114,20 @@ namespace FindTheWay
             else
             {
                 lblStatus.Text = "Invalid text: using default sizes";
-                x = 10;
-                y = 10;
             }
 
             DrawGrid(x, y);
+        }
+
+        private void panelVis_MouseMove(object sender, MouseEventArgs e)
+        {
+            lblStatus.Text = $"Mouse moved: ({e.X}, {e.Y})";
+        }
+
+        public Point ScreenToGrid(int screenX, int screenY)
+        {
+            Point a = new Point();
+            return a;
         }
     }
 }
