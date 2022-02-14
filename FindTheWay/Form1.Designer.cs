@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.PanelSettings = new System.Windows.Forms.TabPage();
             this.btnGenerate = new System.Windows.Forms.Button();
@@ -38,6 +39,7 @@
             this.panelVis = new System.Windows.Forms.TabPage();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.btnFindPath = new System.Windows.Forms.ToolStripSplitButton();
             this.tabControl1.SuspendLayout();
             this.PanelSettings.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -87,6 +89,7 @@
             this.txtYaxis.Name = "txtYaxis";
             this.txtYaxis.Size = new System.Drawing.Size(144, 20);
             this.txtYaxis.TabIndex = 1;
+            this.txtYaxis.Text = "10";
             // 
             // lblYaxis
             // 
@@ -104,6 +107,7 @@
             this.txtXaxis.Name = "txtXaxis";
             this.txtXaxis.Size = new System.Drawing.Size(144, 20);
             this.txtXaxis.TabIndex = 1;
+            this.txtXaxis.Text = "10";
             // 
             // lblXaxis
             // 
@@ -124,12 +128,14 @@
             this.panelVis.TabIndex = 1;
             this.panelVis.Text = "Visualisation";
             this.panelVis.UseVisualStyleBackColor = true;
+            this.panelVis.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panelVis_MouseDown);
             this.panelVis.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelVis_MouseMove);
             // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lblStatus});
+            this.lblStatus,
+            this.btnFindPath});
             this.statusStrip1.Location = new System.Drawing.Point(0, 465);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(793, 22);
@@ -140,6 +146,16 @@
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(217, 17);
             this.lblStatus.Text = "choose the grid size then press generate";
+            // 
+            // btnFindPath
+            // 
+            this.btnFindPath.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnFindPath.Image = ((System.Drawing.Image)(resources.GetObject("btnFindPath.Image")));
+            this.btnFindPath.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnFindPath.Name = "btnFindPath";
+            this.btnFindPath.Size = new System.Drawing.Size(73, 20);
+            this.btnFindPath.Text = "Find Path";
+            this.btnFindPath.ButtonClick += new System.EventHandler(this.btnFindPath_ButtonClick);
             // 
             // Form1
             // 
@@ -173,6 +189,7 @@
         private System.Windows.Forms.TabPage panelVis;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel lblStatus;
+        private System.Windows.Forms.ToolStripSplitButton btnFindPath;
     }
 }
 

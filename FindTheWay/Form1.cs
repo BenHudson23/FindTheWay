@@ -64,35 +64,37 @@ namespace FindTheWay
             Graphics g = Graphics.FromImage(i);
             int w = panelVis.Width / xSize;
             int h = panelVis.Height / ySize;
-            Pen penNormal = new Pen(Color.Blue);
-            Pen penObstacle = new Pen(Color.Red);
-            Pen penStart = new Pen(Color.Green);
-            Pen penEnd = new Pen(Color.Black);
+            Pen pen = new Pen(Color.Black);
+            SolidBrush brushNormal = new SolidBrush(Color.Blue);
+            SolidBrush brushObstacle = new SolidBrush(Color.Red);
+            SolidBrush brushStart = new SolidBrush(Color.Green);
+            SolidBrush brushEnd = new SolidBrush(Color.Black);
 
             for (int x = 0; x < xSize; x++)
             {
                 for (int y = 0; y < ySize; y++)
                 {
                     GridSquare square = grid[x, y];
-                    Pen pen = penNormal;
+                    SolidBrush brush = brushNormal;
 
                     // draw in red for an obstacle
-                    if (square.obstacle)
+                    if (square.type == SquareType.Obstacle)
                     {
-                        pen = penObstacle;
+                        brush = brushObstacle;
                     }
 
                     // change colour for the start
-                    if (square.startPoint)
+                    if (square.type == SquareType.StartPoint)
                     {
-                        pen = penStart;
+                        brush = brushStart;
                     }
 
                     // change colour for the end
-                    if (square.endPoint)
+                    if (square.type == SquareType.EndPoint)
                     {
-                        pen = penEnd;
+                        brush = brushEnd;
                     }
+                    g.FillRectangle(brush, x * w, y * h, w, h);
                     g.DrawRectangle(pen, x * w, y * h, w, h);
                 }
             }
@@ -106,34 +108,52 @@ namespace FindTheWay
 
         private void panelVis_MouseMove(object sender, MouseEventArgs e)
         {
+            Point gridCoordinates = ScreenToGrid(e.X, e.Y);
             lblStatus.Text = ScreenToGrid(e.X, e.Y).ToString();
         }
 
         public Point ScreenToGrid(int screenX, int screenY)
         {
             Point p = new Point();
-            p.X = 1 + (screenX / (panelVis.Width / gridSize.Y));
-            p.Y = 1 + (screenY / (panelVis.Height / gridSize.X));
+            p.X = (screenX / (panelVis.Width / gridSize.X));
+            p.Y = (screenY / (panelVis.Height / gridSize.Y));
             return p;
         }
 
-        //private void panelVis_MouseClick(object sender, MouseEventArgs e)
-        //{
-            //int X = e.X;
-            //int Y = e.Y;
-            //int i = X / gridSize.X;
-            //int j = Y / gridSize.Y;
+        private void panelVis_MouseDown(object sender, MouseEventArgs e)
+        {
+            Point p = ScreenToGrid(e.X, e.Y);
 
-            //fill_in[i, j] = !fill_in[i, j];
+            // click once for an obstacle, twice for start point, three times for end point
 
-            //if (fill_in[i, j])
-            //{
-            //    .FillRectangle(Brushes.Black, X, Y, gridSize.X, gridSize.Y);
-            //}
-            //else
-            //{              
-            //        (Brushes.White, X, Y, gridSize.X, gridSize.Y);
-            //}
-        //}
+            switch (grid[p.X, p.Y].type)
+            {
+                case SquareType.Normal:
+                    grid[p.X, p.Y].type = SquareType.Obstacle;
+                    break;
+                case SquareType.Obstacle:
+                    grid[p.X, p.Y].type = SquareType.StartPoint;
+                    break;
+                case SquareType.StartPoint:
+                    grid[p.X, p.Y].type = SquareType.EndPoint;
+                    break;
+                case SquareType.EndPoint:
+                    grid[p.X, p.Y].type = SquareType.Normal;
+                    break;
+            }
+            DrawGrid(gridSize.X, gridSize.Y);
+        }
+
+        private void btnFindPath_ButtonClick(object sender, EventArgs e)
+        {
+            int startCount = 0;
+            for (int x = 0; x < gridSize.X; x++)
+            {
+                for (int y = 0; y < gridSize.Y; y++)
+                {
+
+                }
+            }
+        }
     }
 }
