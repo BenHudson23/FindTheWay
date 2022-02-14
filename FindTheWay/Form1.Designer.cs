@@ -123,7 +123,7 @@
             this.panelVis.Size = new System.Drawing.Size(785, 461);
             this.panelVis.TabIndex = 1;
             this.panelVis.Text = "Visualisation";
-            this.panelVis.UseVisualStyleBackColor = true;           
+            this.panelVis.UseVisualStyleBackColor = true;
             this.panelVis.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelVis_MouseMove);
             // 
             // statusStrip1

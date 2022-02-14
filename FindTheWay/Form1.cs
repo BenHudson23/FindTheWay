@@ -38,12 +38,12 @@ namespace FindTheWay
             }
             else
             {
-                lblStatus.Text = "Invalid text: using default sizes";
-                x = 10;
-                y = 10;
+                lblStatus.Text = "Invalid text: using default sizes";              
             }
 
             grid = new GridSquare[x, y];
+            gridSize.X = x;
+            gridSize.Y = y;
             for (int xPos = 0; xPos < x; xPos++)
             {
                 for (int yPos = 0; yPos < y; yPos++)
@@ -101,33 +101,39 @@ namespace FindTheWay
 
         private void Form1_Resize(object sender, EventArgs e)
         {
-            // set defaults
-            int x = 10;
-            int y = 10;
-
-            if (
-                int.TryParse(txtXaxis.Text, out x) &&
-                int.TryParse(txtYaxis.Text, out y))
-            {
-                lblStatus.Text = "Drawing grid";
-            }
-            else
-            {
-                lblStatus.Text = "Invalid text: using default sizes";
-            }
-
-            DrawGrid(x, y);
-        }
+            DrawGrid(gridSize.X, gridSize.Y);
+        }       
 
         private void panelVis_MouseMove(object sender, MouseEventArgs e)
         {
-            lblStatus.Text = $"Mouse moved: ({e.X}, {e.Y})";
+            lblStatus.Text = ScreenToGrid(e.X, e.Y).ToString();
         }
 
         public Point ScreenToGrid(int screenX, int screenY)
         {
-            Point a = new Point();
-            return a;
+            Point p = new Point();
+            p.X = screenX / (panelVis.Width / gridSize.Y);
+            p.Y = screenY / (panelVis.Width / gridSize.X);
+            return p;
         }
+
+        //private void panelVis_MouseClick(object sender, MouseEventArgs e)
+        //{
+            //int X = e.X;
+            //int Y = e.Y;
+            //int i = X / gridSize.X;
+            //int j = Y / gridSize.Y;
+
+            //fill_in[i, j] = !fill_in[i, j];
+
+            //if (fill_in[i, j])
+            //{
+            //    .FillRectangle(Brushes.Black, X, Y, gridSize.X, gridSize.Y);
+            //}
+            //else
+            //{              
+            //        (Brushes.White, X, Y, gridSize.X, gridSize.Y);
+            //}
+        //}
     }
 }
