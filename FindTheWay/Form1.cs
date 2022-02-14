@@ -112,8 +112,8 @@ namespace FindTheWay
         public Point ScreenToGrid(int screenX, int screenY)
         {
             Point p = new Point();
-            p.X = screenX / (panelVis.Width / gridSize.Y);
-            p.Y = screenY / (panelVis.Width / gridSize.X);
+            p.X = 1 + (screenX / (panelVis.Width / gridSize.Y));
+            p.Y = 1 + (screenY / (panelVis.Height / gridSize.X));
             return p;
         }
 
